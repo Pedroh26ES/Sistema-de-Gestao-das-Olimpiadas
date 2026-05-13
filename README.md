@@ -24,9 +24,9 @@
 
 ---
 
-## Identificação
+## Integrantes
 
-| Integrantes |
+| Nome |
 | --- |
 | Pedro Henrique |
 
