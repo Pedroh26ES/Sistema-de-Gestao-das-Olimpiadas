@@ -11,32 +11,67 @@
   <img alt="Status" src="https://img.shields.io/badge/Status-Completo-8250df">
 </p>
 
+<p align="center">
+  <a href="#visão-geral">Visão Geral</a> •
+  <a href="#escopo-do-sistema">Escopo</a> •
+  <a href="#diagramas-uml">Diagramas</a> •
+  <a href="#rastreabilidade">Rastreabilidade</a> •
+  <a href="#checklist-de-entrega">Checklist</a>
+</p>
+
 ---
 
-## Visão geral
-
-O **Sistema de Gestão das Olimpíadas (SGO)** foi modelado para apoiar a organização de eventos olímpicos, permitindo controlar competições, inscrições de atletas, alocação de locais, registro de resultados e relatórios de medalhas por país.
-
-Este repositório contém os diagramas UML solicitados no trabalho da disciplina **Projeto de Software**, com os arquivos de origem em **PlantUML** e as respectivas imagens em PNG.
-
-## Nome
+## Identificação
 
 | Integrantes |
 | --- |
 | Nome do aluno 1 |
 | Nome do aluno 2 |
 
+## Visão Geral
+
+O **Sistema de Gestão das Olimpíadas (SGO)** foi modelado para apoiar a organização de competições olímpicas. A proposta contempla o cadastro de competições, inscrição de atletas, alocação de locais, registro de resultados e geração de relatórios de medalhas por país.
+
+Este repositório contém a documentação UML solicitada para o trabalho da disciplina **Projeto de Software**, incluindo os arquivos-fonte em **PlantUML** e as imagens exportadas em PNG.
+
+## Resumo Executivo
+
+| Item | Descrição |
+| --- | --- |
+| Tema | Sistema para gerenciamento de competições olímpicas. |
+| Foco | Organização de competições, atletas, locais, resultados e medalhas. |
+| Atores principais | Administrador, atleta, gestor de locais, oficial de competição, usuário do sistema e comitê olímpico. |
+| Entidades centrais | País, atleta, modalidade, local, competição, inscrição, resultado, medalha e quadro de medalhas. |
+| Arquitetura | Aplicação web com API, serviços, persistência, filas, workers e infraestrutura em nuvem. |
+| Diferenciais | Inclui validações de negócio, segurança, observabilidade, mensageria, exportação de relatórios e backup. |
+
+## Objetivo
+
+Representar, por meio de diagramas UML, a estrutura funcional, lógica, arquitetural e física do SGO, garantindo que as regras de negócio descritas no enunciado sejam contempladas de forma clara, organizada e coerente entre os diagramas.
+
+## Escopo Do Sistema
+
+| Área | Responsabilidades |
+| --- | --- |
+| Competições | Cadastrar, atualizar e consultar competições, contendo modalidade, data, horário, local e atletas inscritos. |
+| Atletas | Registrar a participação de atletas em competições e validar a representação por país em cada modalidade. |
+| Locais | Alocar espaços para competições, evitando conflitos de horário. |
+| Resultados | Registrar primeiro, segundo e terceiro colocados após a realização da competição. |
+| Medalhas | Consolidar ouro, prata e bronze por país. |
+| Relatórios | Gerar e exportar relatórios de desempenho por país. |
+| Segurança | Controlar autenticação, perfis de acesso e proteção das operações administrativas. |
+
 ## Entregáveis
 
-| Item | Descrição | Arquivo |
-| --- | --- | --- |
-| Caso de Uso | Atores e principais funcionalidades do SGO. | [`diagrama-de-caso-de-uso.puml`](codigos/diagrama-de-caso-de-uso.puml) |
-| Classes | Diagrama de classes de projeto com fronteira, controle, domínio e persistência. | [`diagrama-de-classes.puml`](codigos/diagrama-de-classes.puml) |
-| Pacotes | Organização lógica do sistema em responsabilidades. | [`diagrama-de-pacotes.puml`](codigos/diagrama-de-pacotes.puml) |
-| Componentes | Arquitetura em serviços, API, bancos, filas e workers. | [`diagrama-de-componentes.puml`](codigos/diagrama-de-componentes.puml) |
-| Implantação | Distribuição física em infraestrutura de nuvem. | [`diagrama-de-implantação.puml`](codigos/diagrama-de-implantação.puml) |
+| Diagrama | Finalidade | Fonte PlantUML | Imagem |
+| --- | --- | --- | --- |
+| Caso de Uso | Mostra atores e funcionalidades principais. | [`codigos/diagrama-de-caso-de-uso.puml`](codigos/diagrama-de-caso-de-uso.puml) | [`imagens/diagrama-de-caso-de-uso.png`](imagens/diagrama-de-caso-de-uso.png) |
+| Classes | Representa classes de projeto, entidades, controles, fronteira e persistência. | [`codigos/diagrama-de-classes.puml`](codigos/diagrama-de-classes.puml) | [`imagens/diagrama-de-classes.png`](imagens/diagrama-de-classes.png) |
+| Pacotes | Organiza responsabilidades lógicas do sistema. | [`codigos/diagrama-de-pacotes.puml`](codigos/diagrama-de-pacotes.puml) | [`imagens/diagrama-de-pacotes.png`](imagens/diagrama-de-pacotes.png) |
+| Componentes | Descreve a arquitetura em serviços, API, bancos, filas e workers. | [`codigos/diagrama-de-componentes.puml`](codigos/diagrama-de-componentes.puml) | [`imagens/diagrama-de-componentes.png`](imagens/diagrama-de-componentes.png) |
+| Implantação | Mostra a distribuição física em infraestrutura de nuvem. | [`codigos/diagrama-de-implantação.puml`](codigos/diagrama-de-implantação.puml) | [`imagens/diagrama-de-implantação.png`](imagens/diagrama-de-implantação.png) |
 
-## Regras de negócio
+## Regras De Negócio
 
 | Código | Regra | Descrição |
 | --- | --- | --- |
@@ -47,7 +82,7 @@ Este repositório contém os diagramas UML solicitados no trabalho da disciplina
 | RN05 | Controle de resultados | Após a realização da competição, devem ser registrados ouro, prata e bronze. |
 | RN06 | Relatório de medalhas | O sistema deve gerar relatórios de medalhas por país, consolidando ouro, prata e bronze. |
 
-## Histórias de usuário
+## Histórias De Usuário
 
 | ID | História |
 | --- | --- |
@@ -62,9 +97,49 @@ Este repositório contém os diagramas UML solicitados no trabalho da disciplina
 | US09 | Como usuário do sistema, quero consultar o quadro de medalhas, para visualizar a classificação geral por ouro, prata e bronze. |
 | US10 | Como comitê olímpico, quero exportar relatórios em arquivo, para divulgar e arquivar os resultados oficiais. |
 
+## Rastreabilidade
+
+| Necessidade do enunciado | Onde aparece |
+| --- | --- |
+| Cadastrar competição | Caso de Uso, Classes, Pacotes, Componentes |
+| Inscrever atleta | Caso de Uso, Classes, Componentes |
+| Validar país por modalidade | Caso de Uso, Classes, Regras de Negócio |
+| Alocar local sem conflito | Caso de Uso, Classes, Componentes |
+| Registrar resultados | Caso de Uso, Classes, Componentes |
+| Gerar relatório de medalhas | Caso de Uso, Classes, Componentes, Implantação |
+| Separar responsabilidades do sistema | Pacotes, Classes, Componentes |
+| Distribuir fisicamente a solução | Implantação |
+
+## Consistência Entre Os Diagramas
+
+Os diagramas foram organizados para representar o mesmo sistema em níveis diferentes de detalhe:
+
+| Diagrama | Papel na documentação | Como se conecta aos demais |
+| --- | --- | --- |
+| Caso de Uso | Define o que o sistema deve oferecer aos usuários. | Origina as principais operações vistas nas classes, serviços e componentes. |
+| Classes | Detalha a estrutura interna do domínio e das regras de negócio. | Usa as entidades necessárias para executar os casos de uso e persistir os dados. |
+| Pacotes | Agrupa responsabilidades por camadas e áreas do sistema. | Organiza os elementos do diagrama de classes em módulos mais fáceis de entender. |
+| Componentes | Mostra a arquitetura executável em serviços, API, bancos, filas e workers. | Transforma os pacotes lógicos em componentes de software implantáveis. |
+| Implantação | Mostra onde a solução roda fisicamente. | Distribui API, serviços, banco, filas, armazenamento, monitoramento e backup em nuvem. |
+
+## Arquitetura Resumida
+
+O SGO foi modelado com uma arquitetura em camadas e serviços:
+
+| Camada | Descrição |
+| --- | --- |
+| Apresentação | Interface web usada pelos atores do sistema. |
+| API | Ponto central de entrada das requisições. |
+| Serviços | Módulos independentes para atletas, competições, inscrições, locais, resultados, relatórios e segurança. |
+| Persistência | Repositórios e bancos responsáveis por armazenamento dos dados. |
+| Mensageria | Filas SQS e workers para processamento assíncrono de inscrições, resultados, medalhas e relatórios. |
+| Infraestrutura | CloudFront, API Gateway, Load Balancer, VPC, RDS, S3, CloudWatch, SNS e backup. |
+
 ## Diagramas UML
 
-### Diagrama de Caso de Uso
+Cada diagrama possui duas versões: o arquivo-fonte em PlantUML na pasta [`codigos`](codigos) e a imagem PNG renderizada na pasta [`imagens`](imagens).
+
+### Diagrama De Caso De Uso
 
 Representa os atores do SGO e suas interações com os principais casos de uso, como cadastrar competição, inscrever atleta, alocar local, registrar resultados e consultar medalhas.
 
@@ -74,7 +149,7 @@ Representa os atores do SGO e suas interações com os principais casos de uso, 
 
 Arquivo PlantUML: [`codigos/diagrama-de-caso-de-uso.puml`](codigos/diagrama-de-caso-de-uso.puml)
 
-### Diagrama de Classes
+### Diagrama De Classes
 
 Modela o SGO como um **Diagrama de Classes de Projeto**, separando classes de fronteira, controle, domínio e persistência. Inclui entidades, interfaces, atributos, operações, multiplicidades e navegabilidade.
 
@@ -84,7 +159,7 @@ Modela o SGO como um **Diagrama de Classes de Projeto**, separando classes de fr
 
 Arquivo PlantUML: [`codigos/diagrama-de-classes.puml`](codigos/diagrama-de-classes.puml)
 
-### Diagrama de Pacotes
+### Diagrama De Pacotes
 
 Organiza o sistema em pacotes responsáveis por apresentação, aplicação, domínio, persistência e infraestrutura.
 
@@ -94,7 +169,7 @@ Organiza o sistema em pacotes responsáveis por apresentação, aplicação, dom
 
 Arquivo PlantUML: [`codigos/diagrama-de-pacotes.puml`](codigos/diagrama-de-pacotes.puml)
 
-### Diagrama de Componentes
+### Diagrama De Componentes
 
 Demonstra a arquitetura de componentes do SGO com navegador, API central, serviços independentes, bancos AWS por serviço, filas SQS e workers para processamento assíncrono.
 
@@ -104,7 +179,7 @@ Demonstra a arquitetura de componentes do SGO com navegador, API central, servi�
 
 Arquivo PlantUML: [`codigos/diagrama-de-componentes.puml`](codigos/diagrama-de-componentes.puml)
 
-### Diagrama de Implantação
+### Diagrama De Implantação
 
 Apresenta a distribuição física da solução em infraestrutura de nuvem, incluindo dispositivos dos usuários, CloudFront, API Gateway, Load Balancer, VPC, sub-redes, cluster de aplicação, banco de dados, filas, armazenamento, observabilidade, notificações e backup.
 
@@ -114,7 +189,7 @@ Apresenta a distribuição física da solução em infraestrutura de nuvem, incl
 
 Arquivo PlantUML: [`codigos/diagrama-de-implantação.puml`](codigos/diagrama-de-implantação.puml)
 
-## Estrutura do repositório
+## Estrutura Do Repositório
 
 ```text
 .
@@ -133,7 +208,44 @@ Arquivo PlantUML: [`codigos/diagrama-de-implantação.puml`](codigos/diagrama-de
     +-- diagrama-de-pacotes.png
 ```
 
-## Ferramenta utilizada
+## Como Visualizar Ou Editar
+
+Os arquivos `.puml` podem ser abertos em qualquer editor com suporte a PlantUML, como Visual Studio Code com extensão PlantUML, IntelliJ IDEA ou o editor online do PlantUML.
+
+Para renderizar novamente, use os arquivos da pasta [`codigos`](codigos) e exporte as imagens atualizadas para a pasta [`imagens`](imagens).
+
+Exemplo de renderização local:
+
+```bash
+plantuml -tpng codigos/*.puml -o ../imagens
+```
+
+## Critérios De Qualidade
+
+| Critério | Como foi atendido |
+| --- | --- |
+| Clareza | Diagramas separados por finalidade, com nomes objetivos e leitura organizada. |
+| Completude | Todos os diagramas solicitados foram entregues em PlantUML e PNG. |
+| Coerência | As mesmas regras, entidades e responsabilidades aparecem de forma consistente nos diagramas. |
+| Rastreabilidade | As necessidades do enunciado estão vinculadas aos diagramas correspondentes. |
+| Organização | Pastas separadas para códigos-fonte dos diagramas e imagens renderizadas. |
+| Arquitetura | O modelo inclui camadas, serviços, banco, filas, workers, segurança e infraestrutura de implantação. |
+
+## Checklist De Entrega
+
+| Item | Status |
+| --- | --- |
+| README com documentação do sistema | Completo |
+| Histórias de usuário | Completo |
+| Diagrama de Caso de Uso | Completo |
+| Diagrama de Classes | Completo |
+| Diagrama de Pacotes | Completo |
+| Diagrama de Componentes | Completo |
+| Diagrama de Implantação | Completo |
+| Arquivos PlantUML | Completo |
+| Imagens PNG dos diagramas | Completo |
+
+## Ferramenta Utilizada
 
 Os diagramas foram modelados com **PlantUML**, conforme solicitado no enunciado do trabalho.
 
