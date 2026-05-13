@@ -33,7 +33,7 @@ O **Sistema de Gestão das Olimpíadas (SGO)** foi modelado para apoiar a organi
 
 Este repositório contém a documentação UML solicitada para o trabalho da disciplina **Projeto de Software**, incluindo os arquivos-fonte em **PlantUML** e as imagens exportadas em PNG.
 
-## Resumo Executivo
+## Resumo
 
 | Item | Descrição |
 | --- | --- |
