@@ -15,7 +15,6 @@
   <a href="#visão-geral">Visão Geral</a> •
   <a href="#escopo-do-sistema">Escopo</a> •
   <a href="#diagramas-uml">Diagramas</a> •
-  <a href="#rastreabilidade">Rastreabilidade</a> •
   <a href="#checklist-de-entrega">Checklist</a>
 </p>
 
@@ -96,31 +95,6 @@ Representar, por meio de diagramas UML, a estrutura funcional, lógica, arquitet
 | US08 | Como comitê olímpico, quero gerar relatórios de medalhas por país, para acompanhar o desempenho das delegações. |
 | US09 | Como usuário do sistema, quero consultar o quadro de medalhas, para visualizar a classificação geral por ouro, prata e bronze. |
 | US10 | Como comitê olímpico, quero exportar relatórios em arquivo, para divulgar e arquivar os resultados oficiais. |
-
-## Rastreabilidade
-
-| Necessidade do enunciado | Onde aparece |
-| --- | --- |
-| Cadastrar competição | Caso de Uso, Classes, Pacotes, Componentes |
-| Inscrever atleta | Caso de Uso, Classes, Componentes |
-| Validar país por modalidade | Caso de Uso, Classes, Regras de Negócio |
-| Alocar local sem conflito | Caso de Uso, Classes, Componentes |
-| Registrar resultados | Caso de Uso, Classes, Componentes |
-| Gerar relatório de medalhas | Caso de Uso, Classes, Componentes, Implantação |
-| Separar responsabilidades do sistema | Pacotes, Classes, Componentes |
-| Distribuir fisicamente a solução | Implantação |
-
-## Consistência Entre Os Diagramas
-
-Os diagramas foram organizados para representar o mesmo sistema em níveis diferentes de detalhe:
-
-| Diagrama | Papel na documentação | Como se conecta aos demais |
-| --- | --- | --- |
-| Caso de Uso | Define o que o sistema deve oferecer aos usuários. | Origina as principais operações vistas nas classes, serviços e componentes. |
-| Classes | Detalha a estrutura interna do domínio e das regras de negócio. | Usa as entidades necessárias para executar os casos de uso e persistir os dados. |
-| Pacotes | Agrupa responsabilidades por camadas e áreas do sistema. | Organiza os elementos do diagrama de classes em módulos mais fáceis de entender. |
-| Componentes | Mostra a arquitetura executável em serviços, API, bancos, filas e workers. | Transforma os pacotes lógicos em componentes de software implantáveis. |
-| Implantação | Mostra onde a solução roda fisicamente. | Distribui API, serviços, banco, filas, armazenamento, monitoramento e backup em nuvem. |
 
 ## Arquitetura Resumida
 
@@ -227,7 +201,6 @@ plantuml -tpng codigos/*.puml -o ../imagens
 | Clareza | Diagramas separados por finalidade, com nomes objetivos e leitura organizada. |
 | Completude | Todos os diagramas solicitados foram entregues em PlantUML e PNG. |
 | Coerência | As mesmas regras, entidades e responsabilidades aparecem de forma consistente nos diagramas. |
-| Rastreabilidade | As necessidades do enunciado estão vinculadas aos diagramas correspondentes. |
 | Organização | Pastas separadas para códigos-fonte dos diagramas e imagens renderizadas. |
 | Arquitetura | O modelo inclui camadas, serviços, banco, filas, workers, segurança e infraestrutura de implantação. |
 
