@@ -1,0 +1,112 @@
+@startuml
+title SGO - Diagrama de Implantação
+
+top to bottom direction
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+skinparam nodesep 50
+skinparam ranksep 55
+
+skinparam node {
+  BackgroundColor #FFFFFF
+  BorderColor #8A8A8A
+  FontColor #263238
+  RoundCorner 8
+}
+
+skinparam cloud {
+  BackgroundColor #FFFFFF
+  BorderColor #8A8A8A
+}
+
+skinparam database {
+  BackgroundColor #FFFFFF
+  BorderColor #6D91B9
+}
+
+skinparam rectangle {
+  BackgroundColor #EAF7FA
+  BorderColor #73C8D2
+  FontColor #263238
+  RoundCorner 8
+}
+
+skinparam package {
+  BackgroundColor #FFF7EA
+  BorderColor #F0A35B
+  FontColor #263238
+}
+
+node "DISPOSITIVOS DOS USUÁRIOS" as Dispositivos {
+  artifact "Navegador Web\nAdministrador / Atleta / Comitê" as Browser
+}
+
+cloud "AMAZON CLOUDFRONT\nFront-end estático do SGO" as CloudFront
+cloud "AMAZON API GATEWAY\nEndpoints REST" as ApiGateway
+node "AMAZON ELASTIC LOAD BALANCER (ELB)" as ELB
+
+rectangle "AWS CLOUD / VPC DO SGO" as VPC {
+  package "SUB-REDE PÚBLICA" as Publica {
+    node "Servidor Web / Proxy" as Web {
+      artifact "Nginx\nTLS / Roteamento" as Nginx
+    }
+  }
+
+  package "SUB-REDE PRIVADA - APLICAÇÃO" as Aplicacao {
+    node "Cluster de Aplicação\nAmazon ECS / Servidor SGO" as App {
+      artifact "API SGO" as API
+      artifact "Módulo de Segurança" as ModSeguranca
+      artifact "Módulo de Atletas" as ModAtletas
+      artifact "Módulo de Competições" as ModCompeticoes
+      artifact "Módulo de Inscrições" as ModInscricoes
+      artifact "Módulo de Alocação" as ModAlocacao
+      artifact "Módulo de Resultados" as ModResultados
+      artifact "Módulo de Relatórios" as ModRelatorios
+    }
+  }
+
+  package "SUB-REDE PRIVADA - DADOS" as Dados {
+    database "AMAZON RDS\nPostgreSQL - Bases/Schemas SGO" as RDS
+    queue "AMAZON SQS\nFila de Eventos" as SQS
+    storage "AMAZON S3\nRelatórios PDF/CSV" as S3
+  }
+
+  package "OBSERVABILIDADE E NOTIFICAÇÕES" as Observabilidade {
+    cloud "AMAZON CLOUDWATCH\nLogs e Métricas" as CloudWatch
+    cloud "AMAZON SNS\nNotificações" as SNS
+  }
+}
+
+cloud "SERVIÇO DE BACKUP\nSnapshots e retenção" as Backup
+
+Browser --> CloudFront : HTTPS
+CloudFront --> ApiGateway : HTTPS
+ApiGateway --> ELB : HTTPS/REST
+ELB --> Web : HTTP interno
+Web --> API : encaminha requisições
+
+API --> ModSeguranca : autenticação
+API --> ModAtletas : chamadas locais
+API --> ModCompeticoes : chamadas locais
+API --> ModInscricoes : chamadas locais
+API --> ModAlocacao : chamadas locais
+API --> ModResultados : chamadas locais
+API --> ModRelatorios : chamadas locais
+
+App --> RDS : JDBC/TCP 5432
+ModResultados --> SQS : publica eventos
+SQS --> ModRelatorios : processa medalhas
+ModRelatorios --> S3 : salva arquivos
+S3 --> SNS : link do relatório
+
+note right of SNS
+Envia aviso de relatório
+disponível aos usuários.
+end note
+
+App --> CloudWatch : logs
+RDS --> Backup : backup agendado
+
+@enduml

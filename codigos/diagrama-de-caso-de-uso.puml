@@ -1,0 +1,57 @@
+@startuml
+title SGO - Diagrama de Caso de Uso
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "Administrador\ndo SGO" as Admin
+actor "Atleta" as Atleta
+actor "Gestor de\nLocais" as GestorLocais
+actor "Oficial de\nCompetição" as Oficial
+actor "Comitê\nOlímpico" as Comite
+
+rectangle "Sistema de Gestão das Olimpíadas (SGO)" {
+  usecase "Cadastrar\nCompetição" as UC01
+  usecase "Atualizar Dados\nda Competição" as UC02
+  usecase "Consultar Agenda\nde Competições" as UC03
+  usecase "Inscrever\nAtleta" as UC04
+  usecase "Validar País por\nModalidade" as UC05
+  usecase "Alocar Local" as UC06
+  usecase "Verificar Conflito\nde Horário" as UC07
+  usecase "Registrar\nResultados" as UC08
+  usecase "Definir Pódio\nOuro, Prata e Bronze" as UC09
+  usecase "Gerar Relatório\nde Medalhas" as UC10
+  usecase "Consultar Quadro\nde Medalhas" as UC11
+  usecase "Consolidar Medalhas\npor País" as UC12
+}
+
+Admin --> UC01
+Admin --> UC02
+Admin --> UC04
+Atleta --> UC03
+Atleta --> UC04
+GestorLocais --> UC06
+Oficial --> UC08
+Comite --> UC03
+Comite --> UC10
+Comite --> UC11
+
+UC04 ..> UC05 : <<include>>
+UC06 ..> UC07 : <<include>>
+UC08 ..> UC09 : <<include>>
+UC10 ..> UC12 : <<include>>
+UC11 ..> UC12 : <<include>>
+
+note right of UC05
+Um atleta pode disputar várias competições,
+mas só pode representar um país em cada modalidade.
+end note
+
+note right of UC07
+Um local só pode receber uma competição
+por vez no mesmo período.
+end note
+
+@enduml

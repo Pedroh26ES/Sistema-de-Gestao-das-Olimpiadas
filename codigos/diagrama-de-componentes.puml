@@ -1,0 +1,124 @@
+@startuml
+title SGO - Diagrama de Componentes
+
+top to bottom direction
+skinparam shadowing false
+skinparam linetype ortho
+skinparam componentStyle rectangle
+skinparam defaultFontName Arial
+skinparam nodesep 40
+skinparam ranksep 45
+
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #2F3437
+  FontColor #263238
+  RoundCorner 8
+}
+
+skinparam package {
+  BackgroundColor #F7FBFF
+  BorderColor #3D7CC9
+  FontColor #263238
+  RoundCorner 8
+}
+
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #2F3437
+  FontColor #263238
+}
+
+skinparam database {
+  BackgroundColor #FFFFFF
+  BorderColor #F28C45
+}
+
+skinparam queue {
+  BackgroundColor #FFFFFF
+  BorderColor #2E7D32
+}
+
+rectangle "NAVEGADOR" as Navegador {
+  component "Interface Web\nSGO" as Web
+}
+
+rectangle "API" as ApiBox {
+  component "API Gateway /\nBackend REST" as API
+}
+
+package "SERVIÇOS" as Servicos {
+  rectangle "<<SERVICE>>\nSEGURANÇA" as Seguranca
+  rectangle "<<SERVICE>>\nATLETAS" as Atletas
+  rectangle "<<SERVICE>>\nCOMPETIÇÕES" as Competicoes
+  rectangle "<<SERVICE>>\nINSCRIÇÕES" as Inscricoes
+  rectangle "<<SERVICE>>\nLOCAIS" as Locais
+  rectangle "<<SERVICE>>\nRESULTADOS" as Resultados
+  rectangle "<<SERVICE>>\nRELATÓRIOS" as Relatorios
+}
+
+package "BANCOS AWS" as Bancos {
+  database "BD\nSEGURANÇA" as DBSeguranca
+  database "BD\nATLETAS" as DBAtletas
+  database "BD\nCOMPETIÇÕES" as DBCompeticoes
+  database "BD\nINSCRIÇÕES" as DBInscricoes
+  database "BD\nLOCAIS" as DBLocais
+  database "BD\nRESULTADOS" as DBResultados
+  database "BD\nRELATÓRIOS" as DBRelatorios
+}
+
+package "FILAS SQS" as Filas {
+  queue "INSCRIÇÕES" as FilaInscricoes
+  queue "RESULTADOS" as FilaResultados
+  queue "MEDALHAS" as FilaMedalhas
+  queue "RELATÓRIOS" as FilaRelatorios
+}
+
+package "WORKERS" as Workers {
+  rectangle "Worker\nInscrições" as WorkerInscricoes
+  rectangle "Worker\nResultados" as WorkerResultados
+  rectangle "Worker\nMedalhas" as WorkerMedalhas
+  rectangle "Worker\nRelatórios" as WorkerRelatorios
+}
+
+Web <--> API : HTTPS
+
+API -[#F28C45]-> Seguranca : REST
+API -[#F28C45]-> Atletas : REST
+API -[#F28C45]-> Competicoes : REST
+API -[#F28C45]-> Inscricoes : REST
+API -[#F28C45]-> Locais : REST
+API -[#F28C45]-> Resultados : REST
+API -[#F28C45]-> Relatorios : REST
+
+Seguranca -[#F28C45]-> DBSeguranca : TCP/IP
+Atletas -[#F28C45]-> DBAtletas : TCP/IP
+Competicoes -[#F28C45]-> DBCompeticoes : TCP/IP
+Inscricoes -[#F28C45]-> DBInscricoes : TCP/IP
+Locais -[#F28C45]-> DBLocais : TCP/IP
+Resultados -[#F28C45]-> DBResultados : TCP/IP
+Relatorios -[#F28C45]-> DBRelatorios : TCP/IP
+
+Inscricoes -[#2E7D32]-> FilaInscricoes : HTTP
+Resultados -[#2E7D32]-> FilaResultados : HTTP
+Resultados -[#2E7D32]-> FilaMedalhas : HTTP
+Relatorios -[#2E7D32]-> FilaRelatorios : HTTP
+
+FilaInscricoes -[#2E7D32]-> WorkerInscricoes : HTTP
+FilaResultados -[#2E7D32]-> WorkerResultados : HTTP
+FilaMedalhas -[#2E7D32]-> WorkerMedalhas : HTTP
+FilaRelatorios -[#2E7D32]-> WorkerRelatorios : HTTP
+
+WorkerInscricoes -[#F28C45]-> DBInscricoes : TCP/IP
+WorkerResultados -[#F28C45]-> DBResultados : TCP/IP
+WorkerMedalhas -[#F28C45]-> DBRelatorios : TCP/IP
+WorkerRelatorios -[#F28C45]-> DBRelatorios : TCP/IP
+
+note right of Servicos
+Validações entre serviços:
+- inscrições consultam atletas e competições;
+- locais verificam agenda de competições;
+- relatórios consultam resultados e medalhas.
+end note
+
+@enduml

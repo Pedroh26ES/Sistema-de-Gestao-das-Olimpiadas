@@ -1,0 +1,197 @@
+@startuml
+title SGO - Diagrama de Classes de Projeto
+
+top to bottom direction
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+skinparam nodesep 35
+skinparam ranksep 35
+
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #4F5B62
+  FontColor #263238
+}
+
+skinparam package {
+  BackgroundColor #F8FBFF
+  BorderColor #7E9BBE
+  FontColor #263238
+}
+
+package "Fronteira" as Fronteira {
+  class "SGOWebView" as SGOWebView <<boundary>> {
+    +abrirCadastroCompeticao(): void
+    +abrirAtualizacaoCompeticao(): void
+    +exibirAgendaCompeticoes(): void
+    +abrirInscricaoAtleta(): void
+    +abrirRegistroResultado(): void
+    +abrirRelatorioMedalhas(): void
+    +exibirQuadroMedalhas(): void
+  }
+}
+
+package "Controle" as Controle {
+  class "SGOController" as SGOController <<control>> {
+    +cadastrarCompeticao(): Competicao
+    +atualizarCompeticao(): Competicao
+    +consultarAgenda(): List<Competicao>
+    +inscreverAtleta(): Inscricao
+    +alocarLocal(): void
+    +registrarResultado(): Resultado
+    +gerarRelatorioMedalhas(): Arquivo
+    +gerarQuadroMedalhas(): List<QuadroMedalhas>
+  }
+
+  class "ValidadorRegras" as ValidadorRegras <<control>> {
+    +validarPaisPorModalidade(atleta: Atleta, pais: Pais, modalidade: Modalidade): boolean
+    +verificarConflitoHorario(local: Local, inicio: DateTime, fim: DateTime): boolean
+    +validarPodio(resultado: Resultado): boolean
+  }
+}
+
+package "Domínio" as Dominio {
+  class "País" as Pais <<entity>> {
+    - id: UUID
+    - nome: String
+    - sigla: String
+    +calcularMedalhas(): QuadroMedalhas
+  }
+
+  class Atleta <<entity>> {
+    - id: UUID
+    - nome: String
+    - dataNascimento: Date
+    - genero: String
+    +solicitarInscricao(competicao: Competicao, pais: Pais): Inscricao
+  }
+
+  class Modalidade <<entity>> {
+    - id: UUID
+    - nome: String
+    - categoria: String
+  }
+
+  class Local <<entity>> {
+    - id: UUID
+    - nome: String
+    - endereco: String
+    - capacidade: int
+    +estaDisponivel(inicio: DateTime, fim: DateTime): boolean
+  }
+
+  class "Competição" as Competicao <<entity>> {
+    - id: UUID
+    - nome: String
+    - data: Date
+    - horarioInicio: Time
+    - horarioFim: Time
+    - status: StatusCompeticao
+    +abrirInscricoes(): void
+    +encerrar(): void
+  }
+
+  class "Inscrição" as Inscricao <<entity>> {
+    - id: UUID
+    - dataInscricao: DateTime
+    - status: StatusInscricao
+    +confirmar(): void
+    +cancelar(): void
+  }
+
+  class Resultado <<entity>> {
+    - id: UUID
+    - dataRegistro: DateTime
+    +registrarPodio(ouro: Atleta, prata: Atleta, bronze: Atleta): void
+    +validarPodio(): boolean
+  }
+
+  class Medalha <<entity>> {
+    - tipo: TipoMedalha
+    - dataConquista: Date
+  }
+
+  class QuadroMedalhas <<entity>> {
+    - totalOuro: int
+    - totalPrata: int
+    - totalBronze: int
+    +total(): int
+    +ordenarPorDesempenho(): List<QuadroMedalhas>
+  }
+
+  enum StatusCompeticao {
+    PLANEJADA
+    ABERTA
+    ENCERRADA
+  }
+
+  enum StatusInscricao {
+    PENDENTE
+    CONFIRMADA
+    CANCELADA
+  }
+
+  enum TipoMedalha {
+    OURO
+    PRATA
+    BRONZE
+  }
+}
+
+package "Persistência" as Persistencia {
+  interface "ICompeticaoRepository" as ICompeticaoRepository <<interface>> {
+    +salvar(competicao: Competicao): Competicao
+    +buscarPorId(id: UUID): Competicao
+  }
+
+  interface "IAtletaRepository" as IAtletaRepository <<interface>> {
+    +buscarPorId(id: UUID): Atleta
+    +salvar(atleta: Atleta): Atleta
+  }
+
+  interface "ILocalRepository" as ILocalRepository <<interface>> {
+    +buscarPorId(id: UUID): Local
+    +listarDisponiveis(inicio: DateTime, fim: DateTime): List<Local>
+  }
+
+  interface "IResultadoRepository" as IResultadoRepository <<interface>> {
+    +salvar(resultado: Resultado): Resultado
+    +listarMedalhas(): List<Medalha>
+  }
+
+  interface "IInscricaoRepository" as IInscricaoRepository <<interface>> {
+    +salvar(inscricao: Inscricao): Inscricao
+    +buscarPorAtleta(atletaId: UUID): List<Inscricao>
+  }
+}
+
+SGOWebView --> SGOController : envia ações
+SGOController --> ValidadorRegras : aplica regras
+Controle ..> Persistencia : usa interfaces
+Fronteira -[hidden]down- Controle
+Controle -[hidden]down- Persistencia
+Persistencia -[hidden]down- Dominio
+
+Atleta "0..*" --> "1" Pais : nacionalidade
+Competicao "0..*" --> "1" Modalidade : modalidade
+Competicao "0..*" --> "1" Local : local
+Inscricao "0..*" --> "1" Atleta : atleta
+Inscricao "0..*" --> "1" Competicao : competição
+Inscricao "0..*" --> "1" Pais : representa
+Resultado "1" --> "1" Competicao : competição
+Resultado "1" *-- "3" Medalha : compõe pódio
+Medalha "1" --> "1" Atleta : conquistada por
+Medalha "1" --> "1" Pais : soma para
+QuadroMedalhas "1" --> "1" Pais : país
+
+note bottom of ValidadorRegras
+Regras principais:
+- atleta representa um país por modalidade;
+- local não recebe duas competições no mesmo horário;
+- resultado deve ter ouro, prata e bronze.
+end note
+
+@enduml

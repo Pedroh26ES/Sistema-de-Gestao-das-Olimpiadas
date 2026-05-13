@@ -1,0 +1,54 @@
+@startuml
+title SGO - Diagrama de Pacotes
+
+top to bottom direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam defaultFontName Arial
+skinparam nodesep 45
+skinparam ranksep 40
+
+package "sgo.apresentacao" as apresentacao {
+  package "views" as views
+  package "controllers" as controllers
+}
+
+package "sgo.aplicacao" as aplicacao {
+  package "atletas" as atletas
+  package "competicoes" as competicoes
+  package "inscricoes" as inscricoes
+  package "alocacao" as alocacao
+  package "resultados" as resultados
+  package "relatorios" as relatorios
+  package "seguranca" as seguranca
+}
+
+package "sgo.dominio" as dominio {
+  package "entidades" as entidades
+  package "regras-negocio" as regras
+  package "servicos-dominio" as servicosDominio
+}
+
+package "sgo.persistencia" as persistencia {
+  package "repositorios" as repositorios
+  package "mapeamentos" as mapeamentos
+}
+
+package "sgo.infraestrutura" as infraestrutura {
+  package "autenticacao" as autenticacao
+  package "banco-dados" as bancoDados
+  package "mensageria" as mensageria
+  package "exportacao" as exportacao
+}
+
+apresentacao --> aplicacao : aciona casos de uso
+aplicacao --> dominio : aplica regras do SGO
+aplicacao --> persistencia : salva e consulta dados
+persistencia --> dominio : mapeia entidades
+persistencia --> infraestrutura : usa banco de dados
+seguranca --> autenticacao : autentica usuários
+relatorios --> exportacao : gera arquivos
+resultados --> mensageria : publica eventos
+
+@enduml
