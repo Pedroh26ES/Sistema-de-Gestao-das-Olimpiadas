@@ -32,6 +32,10 @@
 
 ## Visão Geral
 
+<p align="center">
+  <img width="100%" src="imagens/logo-visao-geral.png" alt="Visão geral do Sistema de Gestão das Olimpíadas">
+</p>
+
 O **Sistema de Gestão das Olimpíadas (SGO)** foi modelado para apoiar a organização de competições olímpicas. A proposta contempla o cadastro de competições, inscrição de atletas, alocação de locais, registro de resultados e geração de relatórios de medalhas por país.
 
 Este repositório contém a documentação UML solicitada para o trabalho da disciplina **Projeto de Software**, incluindo os arquivos-fonte em **PlantUML** e as imagens exportadas em PNG.
@@ -172,6 +176,10 @@ Arquivo PlantUML: [`codigos/diagrama-de-implantação.puml`](codigos/diagrama-de
 
 ## Estrutura Do Repositório
 
+<p align="center">
+  <img width="100%" src="imagens/logo-estrutura-repositorio.png" alt="Estrutura do repositório do SGO">
+</p>
+
 ```text
 .
 +-- README.md
@@ -187,8 +195,11 @@ Arquivo PlantUML: [`codigos/diagrama-de-implantação.puml`](codigos/diagrama-de
     +-- diagrama-de-componentes.png
     +-- diagrama-de-implantação.png
     +-- diagrama-de-pacotes.png
+    +-- logo-checklist-entrega.png
     +-- logo-diagramas.png
+    +-- logo-estrutura-repositorio.png
     +-- logo-sgo.png
+    +-- logo-visao-geral.png
 ```
 
 ## Como Visualizar Ou Editar
@@ -214,6 +225,10 @@ plantuml -tpng codigos/*.puml -o ../imagens
 | Arquitetura | O modelo inclui camadas, serviços, banco, filas, workers, segurança e infraestrutura de implantação. |
 
 ## Checklist De Entrega
+
+<p align="center">
+  <img width="100%" src="imagens/logo-checklist-entrega.png" alt="Checklist de entrega do SGO">
+</p>
 
 | Item | Status |
 | --- | --- |
