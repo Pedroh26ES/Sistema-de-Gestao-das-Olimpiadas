@@ -12,6 +12,10 @@
 </p>
 
 <p align="center">
+  <img width="90%" src="imagens/logo-sgo.png" alt="Logo do Sistema de Gestão das Olimpíadas">
+</p>
+
+<p align="center">
   <a href="#visão-geral">Visão Geral</a> •
   <a href="#escopo-do-sistema">Escopo</a> •
   <a href="#diagramas-uml">Diagramas</a> •
@@ -110,6 +114,10 @@ O SGO foi modelado com uma arquitetura em camadas e serviços:
 
 ## Diagramas UML
 
+<p align="center">
+  <img width="90%" src="imagens/logo-diagramas.png" alt="Logo de Modelagem de Diagramas">
+</p>
+
 Cada diagrama possui duas versões: o arquivo-fonte em PlantUML na pasta [`codigos`](codigos) e a imagem PNG renderizada na pasta [`imagens`](imagens).
 
 ### Diagrama De Caso De Uso
@@ -179,6 +187,8 @@ Arquivo PlantUML: [`codigos/diagrama-de-implantação.puml`](codigos/diagrama-de
     +-- diagrama-de-componentes.png
     +-- diagrama-de-implantação.png
     +-- diagrama-de-pacotes.png
+    +-- logo-diagramas.png
+    +-- logo-sgo.png
 ```
 
 ## Como Visualizar Ou Editar
